@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>List - CSS3 Transition</title>
+    <style>
+
+        html, body {
+            font-family: 'Helvetica';
+            color: #636363;
+            padding: 0;
+            margin: 0;
+        }
+
+        input {
+            height: 30px;
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+
+        .btn {
+            cursor: pointer;
+            text-align: center;
+            display: inline;
+            border: 1px solid rgba(100, 100, 100, 0.2);
+            transition: all 300ms ease;
+            padding: 12px;
+        }
+
+        .btn:hover {
+            border: 1px solid rgba(100, 100, 100, 0.8);
+        }
+
+        .p1 {
+            padding: 1em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            margin: 2px 0;
+            transition: all 300ms ease;
+            height: 0;
+            overflow: hidden;
+            padding: 0 10px;
+            opacity: 0;
+            background: rgba(245, 245, 245, 1);
+        }
+
+        li.item {
+            height: 60px;
+            padding: 5px 10px;
+
+        }
+
+        li.item.show {
+            opacity: 1;
+        }
+
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            window.addNewItem = () => {
+                let list = document.getElementById('items');
+                let second = list.children[1];
+                let newItem = document.createElement('li');
+                let input = document.getElementById('newItem');
+                let newItemText = input.value;
+
+                newItem.innerText = newItemText;
+
+                newItem.onclick = () => {
+                    newItem.classList.remove('item');
+                };
+
+                newItem.addEventListener('transitionend', (event) => {
+                    if (event.propertyName === 'height') {
+                        if (newItem.classList.contains('item')) {
+                            newItem.classList.add('show');
+                        } else {
+                            list.removeChild(event.target);
+                        }
+                    }
+                });
+
+                list.insertBefore(newItem, second);
+
+                window.setTimeout(() => newItem.classList.add('item'), 100)
+
+            }
+        });
+
+    </script>
+</head>
+<body>
+
+    <div class="p1">
+        <input id="newItem" type="text" value="Bubu">
+        <div class="btn" onclick="addNewItem()">Add</div>
+    </div>
+
+    <ul id="items">
+        <li class="item show">Foo</li>
+        <li class="item show">Bar</li>
+    </ul>
+
+</body>
+</html>
